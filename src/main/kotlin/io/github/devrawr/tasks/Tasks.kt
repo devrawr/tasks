@@ -29,7 +29,7 @@ object Tasks
     {
         if (this.plugin == null)
         {
-            throw IllegalStateException("sync() may only be called from a bukkit instance")
+            throw IllegalStateException("sync() may only be called from a bukkit context")
         }
 
         return BukkitSyncTask
