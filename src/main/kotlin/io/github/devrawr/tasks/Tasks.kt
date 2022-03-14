@@ -7,7 +7,7 @@ import org.bukkit.Bukkit
 
 object Tasks
 {
-    var plugin: Any? = null
+    var plugin: Any?
 
     init
     {
