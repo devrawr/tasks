@@ -1,8 +1,8 @@
 package io.github.devrawr.tasks
 
-import io.github.devrawr.tasks.async.BukkitAsyncTask
-import io.github.devrawr.tasks.async.JavaAsyncTask
-import io.github.devrawr.tasks.sync.BukkitSyncTask
+import io.github.devrawr.tasks.async.BukkitAsyncTaskScheduler
+import io.github.devrawr.tasks.async.JavaAsyncTaskScheduler
+import io.github.devrawr.tasks.sync.BukkitSyncTaskScheduler
 import org.bukkit.Bukkit
 
 object Tasks
@@ -25,24 +25,24 @@ object Tasks
         }
     }
 
-    fun sync(): Task<*>
+    fun sync(): TaskScheduler<*>
     {
         if (this.plugin == null)
         {
             throw IllegalStateException("sync() may only be called from a bukkit context")
         }
 
-        return BukkitSyncTask
+        return BukkitSyncTaskScheduler
     }
 
-    fun async(): Task<*>
+    fun async(): TaskScheduler<*>
     {
         return if (this.plugin != null)
         {
-            BukkitAsyncTask
+            BukkitAsyncTaskScheduler
         } else
         {
-            JavaAsyncTask
+            JavaAsyncTaskScheduler
         }
     }
 }

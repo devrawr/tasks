@@ -1,30 +1,40 @@
 package io.github.devrawr.tasks
 
-import io.github.devrawr.tasks.cancellable.Cancellable
-
-interface Task<T : Cancellable>
+abstract class Task
 {
-    /**
-     * Run a repeating task
-     *
-     * @param delay the delay before starting the first execution
-     * @param period the amount of time between execution
-     * @param action the action to execute
-     */
-    fun repeating(delay: Long = 0L, period: Long, action: () -> Unit): T
+    abstract val context: TaskScheduler<*>
+
+    abstract fun cancel()
 
     /**
-     * Execute an action after a certain delay
+     * Cancel after a provided period of time
      *
-     * @param delay the amount of time it takes before executing the action
-     * @param action the action to execute
+     * @param period the amount of time to wait before
+     *               cancelling the task
+     * @return the current [Task] instance
      */
-    fun delay(delay: Long, action: () -> Unit): T
+    open fun cancelAfter(period: Long): Task
+    {
+        return this.apply {
+            this.context.delay(period) {
+                this.cancel()
+            }
+        }
+    }
 
     /**
-     * Call in the context of the current scheduler
+     * Cancel if a statement is true
      *
-     * @param action the action to execute
+     * @param bool the statement to check for
+     * @return the current [Task] instance
      */
-    fun call(action: () -> Unit): T
+    open fun cancelIf(bool: Boolean): Task
+    {
+        return this.apply {
+            if (bool)
+            {
+                this.cancel()
+            }
+        }
+    }
 }
