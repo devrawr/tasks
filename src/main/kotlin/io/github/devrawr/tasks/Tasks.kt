@@ -13,8 +13,6 @@ object Tasks
     {
         try
         {
-            Class.forName("org.bukkit.Bukkit")
-
             val pluginManager = Bukkit.getPluginManager()
             val plugins = pluginManager.plugins
 
